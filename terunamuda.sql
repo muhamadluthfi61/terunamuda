@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Mar 2019 pada 05.28
+-- Waktu pembuatan: 30 Mar 2019 pada 16.16
 -- Versi server: 10.1.38-MariaDB
--- Versi PHP: 7.3.2
+-- Versi PHP: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Database: `terunamuda`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `akhirbuku`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `akhirbuku` (
+`id` int(11)
+,`jumlah` bigint(13)
+,`tahun` int(4)
+,`bulan` int(2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `akhirperlengkapan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `akhirperlengkapan` (
+`id` int(11)
+,`jumlah` decimal(34,0)
+,`tahun` int(4)
+,`bulan` int(2)
+);
 
 -- --------------------------------------------------------
 
@@ -47,6 +73,48 @@ INSERT INTO `akun` (`id`, `username`, `password`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `awalbuku`
+--
+
+CREATE TABLE `awalbuku` (
+  `id` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `bulan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `awalbuku`
+--
+
+INSERT INTO `awalbuku` (`id`, `jumlah`, `tahun`, `bulan`) VALUES
+(1, 10, 2019, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `awalperlengkapan`
+--
+
+CREATE TABLE `awalperlengkapan` (
+  `id` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `tahun` int(11) NOT NULL,
+  `bulan` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `awalperlengkapan`
+--
+
+INSERT INTO `awalperlengkapan` (`id`, `jumlah`, `tahun`, `bulan`) VALUES
+(6, 100, 2019, 3),
+(7, 20, 2019, 3),
+(14, 100, 2019, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `buku`
 --
 
@@ -65,7 +133,7 @@ CREATE TABLE `buku` (
 --
 
 INSERT INTO `buku` (`id`, `nama`, `penerbit`, `kurikulum`, `tingkat`, `jurusan`, `jumlah`) VALUES
-(1, 'Diary', NULL, NULL, NULL, NULL, 0),
+(1, 'Diary', NULL, NULL, NULL, NULL, 60),
 (2, 'Moral Education', 'Erlangga ', 'National', 7, NULL, 0),
 (3, 'Pendidikan Agama Islam dan budi pekerti', 'Erlangga', 'National', 7, NULL, 0),
 (5, 'Mahir Berbahasa Indonesia', 'Erlangga', 'National', 7, NULL, 0),
@@ -183,6 +251,36 @@ INSERT INTO `buku` (`id`, `nama`, `penerbit`, `kurikulum`, `tingkat`, `jurusan`,
 -- --------------------------------------------------------
 
 --
+-- Stand-in struktur untuk tampilan `laporanbuku`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporanbuku` (
+`id` int(11)
+,`masuk` decimal(32,0)
+,`keluar` decimal(32,0)
+,`total` decimal(33,0)
+,`tahun` int(4)
+,`bulan` int(2)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporanperlengkapan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporanperlengkapan` (
+`id` int(11)
+,`masuk` decimal(32,0)
+,`keluar` decimal(32,0)
+,`total` decimal(33,0)
+,`tahun` int(4)
+,`bulan` int(2)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `meminjam`
 --
 
@@ -216,14 +314,15 @@ INSERT INTO `perlengkapan` (`id`, `nama`, `ukuran`, `jumlah`) VALUES
 (3, 'KEMEJA PUTIH', '16', 0),
 (4, 'KEMEJA PUTIH', '18', 0),
 (5, 'KEMEJA PUTIH', '20', 0),
-(6, 'BAJU PE', 'S', 0),
-(7, 'BAJU PE', 'M', 0),
+(6, 'BAJU PE', 'S', 150),
+(7, 'BAJU PE', 'M', 120),
 (8, 'BAJU PE', 'L', 0),
 (9, 'BAJU PE', 'XL', 0),
 (10, 'BAJU PE', 'XXL', 0),
 (11, 'DASI', NULL, 0),
 (12, 'KAIN BIRU', NULL, 0),
-(13, 'KAIN ABU ABU', NULL, 0);
+(13, 'KAIN ABU ABU', NULL, 0),
+(14, 'test', 'kosong', 200);
 
 -- --------------------------------------------------------
 
@@ -376,6 +475,13 @@ CREATE TABLE `riwayat_buku` (
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `riwayat_buku`
+--
+
+INSERT INTO `riwayat_buku` (`id`, `masuk`, `keluar`, `tanggal`) VALUES
+(1, 50, 0, '2019-03-30');
+
 -- --------------------------------------------------------
 
 --
@@ -388,6 +494,16 @@ CREATE TABLE `riwayat_perlengkapan` (
   `keluar` int(11) DEFAULT NULL,
   `tanggal` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `riwayat_perlengkapan`
+--
+
+INSERT INTO `riwayat_perlengkapan` (`id`, `masuk`, `keluar`, `tanggal`) VALUES
+(6, 20, 0, '2019-03-30'),
+(6, 30, 0, '2019-03-30'),
+(7, 100, 0, '2019-03-30'),
+(14, 100, 0, '2019-03-30');
 
 -- --------------------------------------------------------
 
@@ -558,6 +674,42 @@ INSERT INTO `siswa` (`nis`, `nama`, `jenis_kelamin`, `tingkat`, `rombel`) VALUES
 ('1819.10-006', 'Rivando Sapputro', 'L', 10, 'Grade 10 S'),
 ('1819.10-007', 'Thomas Adrian', 'L', 10, 'Grade 10 S');
 
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `akhirbuku`
+--
+DROP TABLE IF EXISTS `akhirbuku`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `akhirbuku`  AS  select `riwayat_buku`.`id` AS `id`,((`awalbuku`.`jumlah` + `riwayat_buku`.`masuk`) - `riwayat_buku`.`keluar`) AS `jumlah`,year(`riwayat_buku`.`tanggal`) AS `tahun`,month(`riwayat_buku`.`tanggal`) AS `bulan` from ((`riwayat_buku` join `laporanbuku` on(((`riwayat_buku`.`id` = `laporanbuku`.`id`) and (`riwayat_buku`.`masuk` = `laporanbuku`.`masuk`) and (`riwayat_buku`.`keluar` = `laporanbuku`.`keluar`)))) join `awalbuku` on((`awalbuku`.`id` = `laporanbuku`.`id`))) group by `riwayat_buku`.`id` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `akhirperlengkapan`
+--
+DROP TABLE IF EXISTS `akhirperlengkapan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `akhirperlengkapan`  AS  select `laporanperlengkapan`.`id` AS `id`,((`awalperlengkapan`.`jumlah` + `laporanperlengkapan`.`masuk`) - `laporanperlengkapan`.`keluar`) AS `jumlah`,`laporanperlengkapan`.`tahun` AS `tahun`,`laporanperlengkapan`.`bulan` AS `bulan` from (`awalperlengkapan` join `laporanperlengkapan` on((`awalperlengkapan`.`id` = `laporanperlengkapan`.`id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporanbuku`
+--
+DROP TABLE IF EXISTS `laporanbuku`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporanbuku`  AS  select `riwayat_buku`.`id` AS `id`,sum(`riwayat_buku`.`masuk`) AS `masuk`,sum(`riwayat_buku`.`keluar`) AS `keluar`,(sum(`riwayat_buku`.`masuk`) - sum(`riwayat_buku`.`keluar`)) AS `total`,year(`riwayat_buku`.`tanggal`) AS `tahun`,month(`riwayat_buku`.`tanggal`) AS `bulan` from `riwayat_buku` group by `riwayat_buku`.`id` order by `riwayat_buku`.`id`,year(`riwayat_buku`.`tanggal`),month(`riwayat_buku`.`tanggal`) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporanperlengkapan`
+--
+DROP TABLE IF EXISTS `laporanperlengkapan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporanperlengkapan`  AS  select `riwayat_perlengkapan`.`id` AS `id`,sum(`riwayat_perlengkapan`.`masuk`) AS `masuk`,sum(`riwayat_perlengkapan`.`keluar`) AS `keluar`,(sum(`riwayat_perlengkapan`.`masuk`) - sum(`riwayat_perlengkapan`.`keluar`)) AS `total`,year(`riwayat_perlengkapan`.`tanggal`) AS `tahun`,month(`riwayat_perlengkapan`.`tanggal`) AS `bulan` from `riwayat_perlengkapan` group by `riwayat_perlengkapan`.`id` order by `riwayat_perlengkapan`.`id`,year(`riwayat_perlengkapan`.`tanggal`),month(`riwayat_perlengkapan`.`tanggal`) ;
+
 --
 -- Indexes for dumped tables
 --
@@ -613,13 +765,13 @@ ALTER TABLE `akun`
 -- AUTO_INCREMENT untuk tabel `buku`
 --
 ALTER TABLE `buku`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=116;
 
 --
 -- AUTO_INCREMENT untuk tabel `perlengkapan`
 --
 ALTER TABLE `perlengkapan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
